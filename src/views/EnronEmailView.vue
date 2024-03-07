@@ -34,15 +34,24 @@
   </table>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useEnronEmailStore } from "../stores/EnronEmailStore.ts";
+
+
 
 const store = useEnronEmailStore();
 
 const searchTerm = ref(""); // Variable para almacenar el término de búsqueda
 const searchResults = ref([]); // Variable para almacenar los resultados de la búsqueda
 const showTable = ref(false);
+
+const el = ref()
+
+onMounted(() => {
+  el.value // <div>
+  console.log("padre")
+})
 
 const handleSearch = async () => {
   try {

@@ -10,8 +10,19 @@
     />
   </div>
 
-  <table v-if="showTable" class="table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+  <v-app>
+    <v-container>
+      <v-data-table :items="items"></v-data-table>
+    </v-container>
+  </v-app>
+
+  <table
+    v-if="showTable"
+    class="table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
       <tr>
         <th>#</th>
         <th>From</th>
@@ -38,7 +49,85 @@
 import { ref, onMounted } from "vue";
 import { useEnronEmailStore } from "../stores/EnronEmailStore.ts";
 
+const emails = ref([]);
 
+/*function getAllUsers() {
+  fetch("http://localhost:8080/api/v1/emails")
+    .then((response) => response.json())
+    .then((data) => {
+      emails.values = data;
+    });
+}*/
+
+const items = [
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  {
+    name: "African Elephant",
+    species: "Loxodonta africana",
+    diet: "Herbivore",
+    habitat: "Savanna, Forests",
+  },
+  // ... more items
+];
 
 const store = useEnronEmailStore();
 
@@ -46,12 +135,14 @@ const searchTerm = ref(""); // Variable para almacenar el término de búsqueda
 const searchResults = ref([]); // Variable para almacenar los resultados de la búsqueda
 const showTable = ref(false);
 
-const el = ref()
+const el = ref();
 
 onMounted(() => {
-  el.value // <div>
-  console.log("padre")
-})
+  el.value; // <div>
+  console.log("padre");
+  store.getAllEmails();
+  console.log(store.emails);
+});
 
 const handleSearch = async () => {
   try {

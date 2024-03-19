@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import { Email } from "../models/Email.ts";
 
-const apiUrl = import.meta.env.VITE_API_URL;
 //const GETAllEmailsUrl = "http://localhost:8080/api/v1/emails";
 //const GETSearchEmailsUrl = "http://localhost:8080/api/v1/emails/search/";
 //const POSTSearchEmailsUrl = "http://localhost:8080/api/v1/emails/";
+const apiUrl = import.meta.env.VITE_API_URL;
 const GETAllEmailsUrl = `${apiUrl}/api/v1/emails`;
 const GETSearchEmailsUrl = `${apiUrl}/api/v1/emails/search/`;
 const POSTSearchEmailsUrl = `${apiUrl}/api/v1/emails`;
@@ -22,7 +22,7 @@ export const useEnronEmailStore = defineStore("enronEmailStore", {
         }
         const data = await response.json();
         this.emails = data as Email[];
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error al obtener los emails:", error.message);
       }
     },
@@ -34,7 +34,7 @@ export const useEnronEmailStore = defineStore("enronEmailStore", {
         }
         const data = await response.json();
         this.emails = data as Email[];
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error al obtener los emails:", error.message);
       }
     },
@@ -54,7 +54,7 @@ export const useEnronEmailStore = defineStore("enronEmailStore", {
         const data = await response.json();
         console.log(data.items);
         this.emails = data.items as Email[];
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error al obtener los emails:", error.message);
       }
     },

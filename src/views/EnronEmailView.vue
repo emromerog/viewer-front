@@ -26,9 +26,7 @@
         </template>
         <template v-slot:expanded-row="{ columns, item }">
           <tr :key="item.messageId">
-            <td :colspan="columns.length">
-              Content: {{ item.content }}
-            </td>
+            <td :colspan="columns.length">Content: {{ item.content }}</td>
           </tr>
         </template>
       </v-data-table>
@@ -73,9 +71,9 @@ const emails = ref<Email[]>([]);
 const store = useEnronEmailStore();
 
 const emailsHeaders = [
-  { title: "From", key: "from", align: "center" },
-  { title: "To", key: "to", align: "center" },
-  { title: "Subject", key: "subject", align: "center" },
+  { title: "From", key: "from" },
+  { title: "To", key: "to" },
+  { title: "Subject", key: "subject" },
 ];
 
 const searchTerm = ref(""); // Variable para almacenar el término de búsqueda

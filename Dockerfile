@@ -1,6 +1,7 @@
 FROM node:18.8.0-alpine
 
-#RUN npm install -g http-server#RUN npm install -g pm2
+RUN npm install -g http-server
+#RUN npm install -g pm2
 
 RUN mkdir app
 

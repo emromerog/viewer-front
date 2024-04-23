@@ -1,77 +1,62 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+import { Email } from "../models/Email.ts";
 
-const GETAllEmailurl = 'http://localhost:8080/api/v1/emails';
-const GETSearchEmailurl = 'http://localhost:8080/api/v1/emails/search/';
+//const GETAllEmailsUrl = "http://localhost:8080/api/v1/emails";
+//const GETSearchEmailsUrl = "http://localhost:8080/api/v1/emails/search/";
+//const POSTSearchEmailsUrl = "http://localhost:8080/api/v1/emails/";
+const apiUrl = import.meta.env.VITE_API_URL;
+const GETAllEmailsUrl = `${apiUrl}/api/v1/emails`;
+const GETSearchEmailsUrl = `${apiUrl}/api/v1/emails/search/`;
+const POSTSearchEmailsUrl = `${apiUrl}/api/v1/emails`;
 
-export const useEnronEmailStore = defineStore('enronEmailStore', {
+export const useEnronEmailStore = defineStore("enronEmailStore", {
   state: () => ({
-    /*jsonData: [],
-    showTable: false,*/
-    searchTerm: "",
-  searchResults: [],
+    emails: [] as Email[],
   }),
   actions: {
-    async handleSearchEmails () {
+    async searchEmails(term: string) {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/emails/search/${this.searchTerm.value}`);
-    
-        if (response.ok) {
-          const data = await response.json();
-          // Actualizar los resultados de la búsqueda
-          this.searchResults = data;
-        } else {
-          // Manejar errores en la respuesta
-          console.error('Error en la solicitud:', response.status, response.statusText);
+        const response = await fetch(GETSearchEmailsUrl + term);
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
-      } catch (error) {
-        // Manejar errores en la petición
-        console.error('Se produjo un error al realizar la búsqueda:', error.message);
+        const data = await response.json();
+        this.emails = data as Email[];
+      } catch (error: any) {
+        console.error("Error al obtener los emails:", error.message);
       }
     },
-    /*** Maneja el evento change del input file*/
-    /*async handleEmailSearch(event) {
-        const searchTerm = event.target.querySelector('#default-search').value;
-        //console.log("handleFileChange...", searchTerm);
-
-        try {
-            const response = await fetch(GETSearchEmailurl + searchTerm);
-            if (response.ok) {
-              console.log('Data obtenida correctamente.');
-              this.jsonData = await response.json(); // Actualiza directamente la propiedad reactiva
-              this.showTable = true; // Actualiza directamente la propiedad reactiva
-              console.log(this.jsonData)
-              return this.jsonData;
-              } else {
-                console.error('Error en la solicitud:', response.status, response.statusText);
-              }
-            } catch (error) {
-              console.error('Se produjo un error al obtener la data: ', error.message);
-            }
-        
-      },*/
-      /** Valida que el archivo se cargue */
-      /*async handleGetAllEmail() {
-        console.log("handleGetAllEmail...");
-        try {
-          // Realizar la petición GET a la API
-          const response = await fetch(GETAllEmailurl);
-      
-          // Verificar si la respuesta es exitosa (código 200)
-          if (response.ok) {
-            // Convertir la respuesta a JSON
-            const data = await response.json();
-            console.log(data)
-            // Actualizar los resultados de la búsqueda
-            searchResults.value = data;
-            showTable.value = searchResults.value.length > 0;
-          } else {
-            // Manejar errores en la respuesta
-            console.error('Error en la solicitud:', response.status, response.statusText);
-          }
-        } catch (error) {
-          // Manejar errores en la petición
-          console.error('Se produjo un error al realizar la búsqueda:', error.message);
-        }        
-      },*/
-  }
+    async getAllEmails() {
+      try {
+        const response = await fetch(GETAllEmailsUrl);
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        const data = await response.json();
+        this.emails = data as Email[];
+      } catch (error: any) {
+        console.error("Error al obtener los emails:", error.message);
+      }
+    },
+    async searchEmailsPOST(searchTerm: string) {
+      try {
+        const response = await fetch(POSTSearchEmailsUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ page: 1, itemsPerPage: 25, term: searchTerm }),
+          //body: JSON.stringify({ term: searchTerm }),
+        });
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        const data = await response.json();
+        console.log(data.items);
+        this.emails = data.items as Email[];
+      } catch (error: any) {
+        console.error("Error al obtener los emails:", error.message);
+      }
+    },
+  },
 });

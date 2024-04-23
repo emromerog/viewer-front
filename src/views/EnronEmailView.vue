@@ -71,6 +71,7 @@ const emails = ref<Email[]>([]);
 const store = useEnronEmailStore();
 
 const emailsHeaders = [
+{ title: "Date", key: "date" },
   { title: "From", key: "from" },
   { title: "To", key: "to" },
   { title: "Subject", key: "subject" },
